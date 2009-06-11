@@ -1,6 +1,6 @@
 = enum_field
 
-* http://github.com/#{github_username}/#{project_name}
+* http://github.com/paraseba/enum_field
 
 == DESCRIPTION:
 
@@ -13,19 +13,19 @@ only an integer ID.
 * Allows creation of Classes with enum like behaviour.
 * Allows any number of members and methods in the enum classes.
 * Allows an integer id to be used in your database columns to link to the enum members (user.role_id)
-* Enables higher abstraction interaction with AR attributes:
-  * user.role = Role.admin
-  * if user.role.can_edit?
-* Saves in your AR tables, only an integer id pointing to the enumeration member.
+* Enables higher abstraction interaction with +AR+ attributes:
+  * <code>user.role = Role.admin</code>
+  * <code>if user.role.can_edit?</code>
+* Saves in your +AR+ tables, only an integer id pointing to the enumeration member.
 
 == SYNOPSIS:
 
 When in an Active Record class, you have an attribute like role, state or country you have
 several options.
 
-# You can create a roles, states or countries table, and dump there all possible values.
-# You can use a string to identify, for instance, the role.
-# You can use an id to identify the role.
+* You can create a roles, states or countries table, and dump there all possible values.
+* You can use a string to identify, for instance, the role.
+* You can use an id to identify the role.
 
 If you are not confortable with any of this options, maybe +enum_field+ is an answer for you.
 
@@ -69,7 +69,7 @@ Your enum classes can have all the methods you need:
 
   user.phone.type.name
 
-You have some AR like methods in enum classes
+You have some +AR+ like methods in enum classes
 
   PhoneType.all == [PhoneType.home, PhoneType.commercial, PhoneType.movile]  # ordered all
   PhoneType.first == PhoneType.home
