@@ -189,7 +189,7 @@ describe EnumField::DefineEnum do
       define_enum do |b|
         b.member :home,       :object => PhoneType.new('home')
         b.member :commercial, :object => PhoneType.new('commercial')
-        b.member :movile,     :object => PhoneType.new('movile')
+        b.member :mobile,     :object => PhoneType.new('mobile')
       end
     end
 

@@ -63,7 +63,7 @@ Your enum classes can have all the methods you need:
     define_enum do |b|
       b.member :home,       :object => PhoneType.new('home')
       b.member :commercial, :object => PhoneType.new('commercial')
-      b.member :movile,     :object => PhoneType.new('movile')
+      b.member :mobile,     :object => PhoneType.new('mobile')
     end
   end
 
@@ -71,9 +71,9 @@ Your enum classes can have all the methods you need:
 
 You have some +AR+ like methods in enum classes
 
-  PhoneType.all == [PhoneType.home, PhoneType.commercial, PhoneType.movile]  # ordered all
+  PhoneType.all == [PhoneType.home, PhoneType.commercial, PhoneType.mobile]  # ordered all
   PhoneType.first == PhoneType.home
-  PhoneType.last == PhoneType.movile
+  PhoneType.last == PhoneType.mobile
 
   PhoneType.find_by_id(PhoneType.home.id) == PhoneType.home
   PhoneType.find_by_id(123456) == nil
