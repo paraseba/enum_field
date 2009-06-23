@@ -4,6 +4,7 @@ module EnumField
       @target = target
       @next_id = 0
       @id2obj = {}
+      @name2obj = {}
       @sorted = []
     end
 
@@ -11,11 +12,15 @@ module EnumField
       obj, candidate_id = process_options(options)
       assign_id(obj, candidate_id)
       define_in_meta(name) { obj }
-      save(obj)
+      save(name, obj)
     end
 
     def all
       @sorted.dup
+    end
+
+    def names
+      @name2obj.keys
     end
 
     def find(id)
@@ -62,9 +67,10 @@ module EnumField
       [options[:object] || @target.new, options[:id]]
     end
 
-    def save(obj)
+    def save(name, obj)
       @id2obj[obj.id] = obj
       @sorted << obj
+      @name2obj[name] = obj
     end
 
   end
