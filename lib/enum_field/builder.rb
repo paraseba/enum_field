@@ -10,6 +10,7 @@ module EnumField
 
     def member(name, options = {})
       obj, candidate_id = process_options(options)
+      obj.freeze
       assign_id(obj, candidate_id)
       define_in_meta(name) { obj }
       save(name, obj)
