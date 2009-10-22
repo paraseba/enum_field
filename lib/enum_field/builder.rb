@@ -29,7 +29,7 @@ module EnumField
     end
 
     def find_by_id(id)
-      @id2obj[id]
+      @id2obj[id.to_i]
     end
 
     def first; @sorted.first; end
