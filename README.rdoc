@@ -80,6 +80,37 @@ You have some +AR+ like methods in enum classes
   PhoneType.find(2) == PhoneType.commercial
   PhoneType.find(123456)  # will raise
 
+It also mimics has_many :through behavior, for cases such as:
+
+  class Role
+    define_enum do |builder|
+      builder.member :admin
+      builder.member :manager
+      builder.member :employee
+    end
+  end
+
+  class User
+    has_many_enumerated_attributes :roles, :through  => UserRole
+  end
+
+  class UserRole < ActiveRecord::Base
+    belongs_to :user
+    enumerated_attribute :role
+  end
+
+  user = User.create
+  user.role = [Role.manager, Role.admin]
+  user.roles.include?(Role.admin)         #will be true
+  user.roles.include?(Role.manager)       #will be true
+  user.roles.include?(Role.employee)      #will be false
+  user.role_ids.include?(Role.manager.id) #will be true
+  user.role_ids = [Role.employee.id]
+  user.roles.include?(Role.employee)      #will be true
+  user.roles.include?(Role.admin)         #will be false
+
+
+
 == REQUIREMENTS:
 
 * activerecord
