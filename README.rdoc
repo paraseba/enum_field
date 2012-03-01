@@ -80,7 +80,7 @@ You have some +AR+ like methods in enum classes
   PhoneType.find(2) == PhoneType.commercial
   PhoneType.find(123456)  # will raise
 
-It also mimics has_many :through behavior, for cases such as:
+The library also mimics has_many :through behavior, for cases such as:
 
   class Role
     define_enum do |builder|

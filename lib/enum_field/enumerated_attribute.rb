@@ -49,14 +49,15 @@ module EnumeratedAttribute
     end
   end
 
+  # alias of enumerated_attribute
   alias belongs_to_enumerated_attribute enumerated_attribute
 
-  # Define a one-to-many association between an AR class and the enumerated
+  # Defines a one-to-many association between an AR class and the enumerated
   # * +association+: the name of the one-to-many association, for instance +roles+
   # * +options+: Valid options are:
   #    * +through+ : the name of the AR class needed to persist the one-to-many association.
-  #       Defaults to AR class in camelcase form plus enumerated class in camelcase form.
-  #    * +class+:    the enumerated class that will be instantiated +n+ times when +association+ method is called.
+  #       Defaults to AR class in camelcase form concatenated with the enumerated class in camelcase form.
+  #    * +class+:    the enumerated class, it will be instantiated +n+ times when +association+ method is called.
   #       Defaults to +association+ in singular camelcase form.
   def has_many_enumerated_attributes(association, options = {})
     enum_attr = association.to_s.singularize
@@ -83,9 +84,6 @@ module EnumeratedAttribute
     define_method(association_ids + '=') do |values|
       self.send(has_many_aux + '=', values.map{|g| g.to_i unless g.blank?}.compact.map{|g_id| through.constantize.new(self_attribute => self, enum_attr + '_id' => g_id) })
     end
-
   end
-
 end
-
 end
