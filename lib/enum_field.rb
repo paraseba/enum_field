@@ -6,7 +6,7 @@ require 'enum_field/define_enum'
 require 'enum_field/exceptions'
 require 'enum_field/builder'
 require 'enum_field/enumerated_attribute'
-require 'activerecord'
+require 'active_record'
 
 Module.send(:include, EnumField::DefineEnum)
 ActiveRecord::Base.send(:extend, EnumField::EnumeratedAttribute)
