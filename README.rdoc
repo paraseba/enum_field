@@ -1,148 +1,19 @@
 = enum_field
 
-* http://github.com/paraseba/enum_field
+Description goes here.
 
-== DESCRIPTION:
+== Contributing to enum_field
+ 
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
+* Fork the project.
+* Start a feature/bugfix branch.
+* Commit and push until you are happy with your contribution.
+* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
+* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-Enables Active Record attributes to point to enum like objects, by saving in your database
-only an integer ID.
+== Copyright
 
+Copyright (c) 2012 Sebastián Bernardo Galkin. See LICENSE.txt for
+further details.
 
-== FEATURES:
-
-* Allows creation of Classes with enum like behaviour.
-* Allows any number of members and methods in the enum classes.
-* Allows an integer id to be used in your database columns to link to the enum members (user.role_id)
-* Enables higher abstraction interaction with +AR+ attributes:
-  * <code>user.role = Role.admin</code>
-  * <code>if user.role.can_edit?</code>
-* Saves in your +AR+ tables, only an integer id pointing to the enumeration member.
-
-== SYNOPSIS:
-
-When in an Active Record class, you have an attribute like role, state or country you have
-several options.
-
-* You can create a roles, states or countries table, and dump there all possible values.
-* You can use a string to identify, for instance, the role.
-* You can use an id to identify the role.
-
-If you are not confortable with any of this options, maybe +enum_field+ is an answer for you.
-
-== BASIC USAGE:
-
-  class Role
-    define_enum do |builder|
-      builder.member :admin
-      builder.member :manager
-      builder.member :employee
-    end
-  end
-
-  class User < ActiveRecord::Base
-    # in the database table there is a role_id integer column
-    enumerated_attribute :role
-  end
-
-
-  link_to_if(current_user.role == Role.admin, edit_foo_path(@foo))
-
-  user.role = Role.manager
-  user.role_id == Role.manager.id  #will be true
-
-  User.first.role.id == User.first.role_id  #will be true
-
-Your enum classes can have all the methods you need:
-
-  class PhoneType
-    def initialize(name)
-      @name = name
-    end
-    attr_reader :name
-
-    define_enum do |b|
-      b.member :home,       :object => PhoneType.new('home')
-      b.member :commercial, :object => PhoneType.new('commercial')
-      b.member :mobile,     :object => PhoneType.new('mobile')
-    end
-  end
-
-  user.phone.type.name
-
-You have some +AR+ like methods in enum classes
-
-  PhoneType.all == [PhoneType.home, PhoneType.commercial, PhoneType.mobile]  # ordered all
-  PhoneType.first == PhoneType.home
-  PhoneType.last == PhoneType.mobile
-
-  PhoneType.find_by_id(PhoneType.home.id) == PhoneType.home
-  PhoneType.find_by_id(123456) == nil
-  PhoneType.find(2) == PhoneType.commercial
-  PhoneType.find(123456)  # will raise
-
-The library also mimics has_many :through behavior, for cases such as:
-
-  class Role
-    define_enum do |builder|
-      builder.member :admin
-      builder.member :manager
-      builder.member :employee
-    end
-  end
-
-  class User
-    has_many_enumerated_attributes :roles, :through  => UserRole
-  end
-
-  class UserRole < ActiveRecord::Base
-    belongs_to :user
-    enumerated_attribute :role
-  end
-
-  user = User.create
-  user.role = [Role.manager, Role.admin]
-  user.roles.include?(Role.admin)         #will be true
-  user.roles.include?(Role.manager)       #will be true
-  user.roles.include?(Role.employee)      #will be false
-  user.role_ids.include?(Role.manager.id) #will be true
-  user.role_ids = [Role.employee.id]
-  user.roles.include?(Role.employee)      #will be true
-  user.roles.include?(Role.admin)         #will be false
-
-
-
-== REQUIREMENTS:
-
-* activerecord
-* hoe
-* rubyforge
-
-
-== INSTALL:
-
-sudo gem install enum_field
-
-== LICENSE:
-
-(The MIT License)
-
-Copyright (c) 2009 Sebastián Bernardo Galkin
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

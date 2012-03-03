@@ -13,9 +13,12 @@ describe EnumField::EnumeratedAttribute do
     enumerated_attribute :role
   end
 
-  
-  before(:each) {
-    User.stub!(:columns).and_return([ActiveRecord::ConnectionAdapters::Column.new(:role_id, nil)])
+
+  before(:all) {
+    ActiveRecord::Base.establish_connection :adapter => "sqlite3", :database => ':memory:'
+    ActiveRecord::Base.connection.create_table(:users) do |t|
+      t.belongs_to :role
+    end
   }
 
   it "should add enumerated_attribute class method to ActiveRecord::Base" do

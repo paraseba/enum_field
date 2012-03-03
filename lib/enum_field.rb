@@ -6,12 +6,12 @@ require 'enum_field/define_enum'
 require 'enum_field/exceptions'
 require 'enum_field/builder'
 require 'enum_field/enumerated_attribute'
-require 'activerecord'
+require 'active_record'
 
 Module.send(:include, EnumField::DefineEnum)
 ActiveRecord::Base.send(:extend, EnumField::EnumeratedAttribute)
 
 module EnumField
-  VERSION = '0.1.1'
+  VERSION = '1.0.2'
 
 end

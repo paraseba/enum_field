@@ -9,13 +9,12 @@ describe EnumField::EnumeratedAttribute do
     end
   end
 
-  class User < ActiveRecord::Base
+  class Client < ActiveRecord::Base
     has_many_enumerated_attributes :roles
   end
 
-  class UserRole < ActiveRecord::Base
-    set_table_name :users_roles
-    belongs_to :user
+  class ClientRole < ActiveRecord::Base
+    belongs_to :client
     enumerated_attribute :role
   end
 
@@ -23,23 +22,27 @@ describe EnumField::EnumeratedAttribute do
   end
 
   class PersonRole < ActiveRecord::Base
-    set_table_name :people_roles
     belongs_to :person
     enumerated_attribute :role
   end
 
   context "with AR objects" do
 
-    before(:each) {
-      User.stub!(:columns).and_return([])
-      User.class_eval('attr_accessor :user_roles')
-      Person.stub!(:columns).and_return([])
-      UserRole.stub!(:columns).and_return([ ActiveRecord::ConnectionAdapters::Column.new(:role_id, nil),
-                                            ActiveRecord::ConnectionAdapters::Column.new(:user_id, nil)])
-      PersonRole.stub!(:columns).and_return([ ActiveRecord::ConnectionAdapters::Column.new(:role_id, nil),
-                                              ActiveRecord::ConnectionAdapters::Column.new(:person_id, nil)])
-      @user = User.new
+    before(:all) {
+      ActiveRecord::Base.establish_connection :adapter => "sqlite3", :database => ':memory:'
+      ActiveRecord::Base.connection.create_table(:clients)
+      ActiveRecord::Base.connection.create_table(:people)
+      ActiveRecord::Base.connection.create_table(:client_roles) do |t|
+        t.belongs_to :client
+        t.belongs_to :role
+      end
+      ActiveRecord::Base.connection.create_table(:person_roles) do |t|
+        t.belongs_to :person
+        t.belongs_to :role
+      end
     }
+
+    before(:each) {@client = Client.create}
 
 
     it "should add has_many_enumerated_attribute class method to ActiveRecord::Base" do
@@ -47,11 +50,11 @@ describe EnumField::EnumeratedAttribute do
     end
 
     it "should define reader on the field" do
-      @user.should respond_to(:roles)
+      @client.should respond_to(:roles)
     end
 
     it "should define writter on the field" do
-      @user.should respond_to(:'roles=')
+      @client.should respond_to(:'roles=')
     end
 
     it "should define has many person_roles" do
@@ -60,34 +63,34 @@ describe EnumField::EnumeratedAttribute do
     end
 
     it "should assign field ids when fields is assigned" do
-      @user.roles = [Role.admin]
-      @user.role_ids.first.should == Role.admin.id
+      @client.roles = [Role.admin]
+      @client.role_ids.first.should == Role.admin.id
     end
 
     it "should return fields after field_ids is assigned" do
-      @user.role_ids = [Role.admin.id]
-      @user.roles.first.should == Role.admin
+      @client.role_ids = [Role.admin.id]
+      @client.roles.first.should == Role.admin
     end
 
     it "should return empty fields for not field_ids" do
-      @user.role_ids = []
-      @user.roles.should be_empty
+      @client.role_ids = []
+      @client.roles.should be_empty
     end
 
     it "should return empty field ids for empty fields" do
-      @user.roles = []
-      @user.role_ids.should be_empty
+      @client.roles = []
+      @client.role_ids.should be_empty
     end
 
     it "should include the roles asigned" do
-      @user.roles = [Role.admin, Role.manager]
-      @user.roles.should include(Role.admin)
-      @user.roles.should include(Role.manager)
+      @client.roles = [Role.admin, Role.manager]
+      @client.roles.should include(Role.admin)
+      @client.roles.should include(Role.manager)
     end
 
     it "should not include unassigned roles" do
-      @user.roles = [Role.admin, Role.manager]
-      @user.roles.should_not include(Role.supervisor)
+      @client.roles = [Role.admin, Role.manager]
+      @client.roles.should_not include(Role.supervisor)
     end
   end
 end

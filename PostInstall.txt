@@ -1,3 +1,0 @@
-
-For more information on enum_field, see http://enum_field.rubyforge.org
-
