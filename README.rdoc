@@ -2,13 +2,13 @@
 
 * http://github.com/paraseba/enum_field
 
-== DESCRIPTION:
+== Description:
 
 Enables Active Record attributes to point to enum like objects, by saving in your database
 only an integer ID.
 
 
-== FEATURES:
+== Features:
 
 * Allows creation of Classes with enum like behaviour.
 * Allows any number of members and methods in the enum classes.
@@ -18,7 +18,7 @@ only an integer ID.
   * <code>if user.role.can_edit?</code>
 * Saves in your +AR+ tables, only an integer id pointing to the enumeration member.
 
-== SYNOPSIS:
+== Synopsis:
 
 When in an Active Record class, you have an attribute like role, state or country you have
 several options.
@@ -29,7 +29,7 @@ several options.
 
 If you are not confortable with any of this options, maybe +enum_field+ is an answer for you.
 
-== BASIC USAGE:
+== Basic usage:
 
   class Role
     define_enum do |builder|
@@ -111,18 +111,16 @@ The library also mimics has_many :through behavior, for cases such as:
 
 
 
-== REQUIREMENTS:
+== Requirements:
 
 * activerecord
-* hoe
-* rubyforge
 
 
-== INSTALL:
+== Install:
 
 sudo gem install enum_field
 
-== LICENSE:
+== License:
 
 (The MIT License)
 
