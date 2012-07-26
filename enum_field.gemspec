@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "enum_field"
-  s.version = "1.1.0"
+  s.version = "1.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sebasti\u{e1}n Bernardo Galkin"]
-  s.date = "2012-03-03"
+  s.date = "2012-07-26"
   s.description = "Enables Active Record attributes to point to enum like objects, by saving in your database only an integer ID."
   s.email = "paraseba@gmail.com"
   s.extra_rdoc_files = [
